@@ -1,4 +1,5 @@
 let img = '';
+let pixel_slider;
 let line_slider;
 let spiral_location;
 let input;
@@ -15,10 +16,14 @@ function setup() {
 
   textSize(30);
   fill(255, 0, 0);
+  text("particle_size", width * 0.75, height * 0.05);
   text("line_width", width * 0.75, height * 0.15);
   text("spiral_shape", width * 0.40, height * 0.15);
 
   // 操作用のGUIの作成
+  pixel_slider = createSlider(0, 10, 4, 0.5);
+  pixel_slider.position(width * 0.75, height * 0.18);
+  pixel_slider.style("width", "200px");
   line_slider = createSlider(0, 5, 0, 0.5);
   line_slider.position(width * 0.75, height * 0.28);
   line_slider.style("width", "200px");
@@ -54,6 +59,9 @@ function draw() {
 
       // canvasの大きさを画像の大きさに変更
       resizeCanvas(img.width, img.height)
+      
+      // スライダーの入力値に応じてパーティクルの大きさを決める
+      let size = pixel_slider.value();
 
       // 線の色
       let line_color = colorPicker.value();
