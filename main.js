@@ -16,7 +16,7 @@ function setup() {
 
   textSize(30);
   fill(255, 0, 0);
-  text("particle_size", width * 0.75, height * 0.05);
+  text("particle_gap", width * 0.75, height * 0.05);
   text("line_width", width * 0.75, height * 0.15);
   text("spiral_shape", width * 0.40, height * 0.15);
 
