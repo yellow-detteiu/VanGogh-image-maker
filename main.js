@@ -22,13 +22,13 @@ function setup() {
 
   // 操作用のGUIの作成
   pixel_slider = createSlider(0, 10, 4, 0.5);
-  pixel_slider.position(width * 0.75, height * 0.18);
+  pixel_slider.position(width * 0.75, height * 0.2);
   pixel_slider.style("width", "200px");
   line_slider = createSlider(0, 5, 0, 0.5);
-  line_slider.position(width * 0.75, height * 0.28);
+  line_slider.position(width * 0.75, height * 0.3);
   line_slider.style("width", "200px");
   spiral_location = createSlider(0.5, 5, 1, 0.1);
-  spiral_location.position(width * 0.4, height * 0.28);
+  spiral_location.position(width * 0.4, height * 0.3);
   spiral_location.style("width", "200px");
 
   input = createFileInput(gotFile);
