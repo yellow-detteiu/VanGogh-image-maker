@@ -1,7 +1,6 @@
 let img = '';
-let pixel_slider;
-let pixel_width;
-let pixel_height;
+let line_slider;
+let spiral_location;
 let input;
 let save_button;
 let colorPicker;
@@ -16,25 +15,13 @@ function setup() {
 
   textSize(30);
   fill(255, 0, 0);
-  text("particle_size", width * 0.75, height * 0.05);
   text("line_width", width * 0.75, height * 0.15);
-  text("particle_width", width * 0.05, height * 0.05);
-  text("particle_height", width * 0.05, height * 0.15);
   text("spiral_shape", width * 0.40, height * 0.15);
 
   // 操作用のGUIの作成
-  pixel_slider = createSlider(0, 10, 4, 0.5);
-  pixel_slider.position(width * 0.75, height * 0.18);
-  pixel_slider.style("width", "200px");
   line_slider = createSlider(0, 5, 0, 0.5);
   line_slider.position(width * 0.75, height * 0.28);
   line_slider.style("width", "200px");
-  pixel_width = createSlider(1, 5, 1, 0.5);
-  pixel_width.position(width * 0.05, height * 0.18);
-  pixel_width.style("width", "200px");
-  pixel_height = createSlider(1, 5, 1, 0.5);
-  pixel_height.position(width * 0.05, height * 0.28);
-  pixel_height.style("width", "200px");
   spiral_location = createSlider(0.5, 5, 1, 0.1);
   spiral_location.position(width * 0.4, height * 0.28);
   spiral_location.style("width", "200px");
@@ -66,17 +53,7 @@ function draw() {
     if (img) {
 
       // canvasの大きさを画像の大きさに変更
-      resizeCanvas(img.width, img.height);
-
-      // スライダーの入力値に応じてパーティクルの大きさを決める
-      let size = pixel_slider.value();
-
-      // 各パーティクルの縦横を調整するための変数
-      let pix_x = pixel_width.value() / 4;
-      let pix_y = pixel_height.value() / 4;
-
-      // 円の数
-      let particle_num = width * height
+      resizeCanvas(img.width, img.height)
 
       // 線の色
       let line_color = colorPicker.value();
@@ -87,11 +64,6 @@ function draw() {
       // 渦の位置
       let spiral_shape = spiral_location.value();
 
-
-      // 画像を描画
-      //image(img, -width / 2, -height / 2);
-
-      //blendMode(ADD);
       stroke(line_color);
       strokeWeight(line_width);
       rectMode(CENTER);
@@ -131,6 +103,8 @@ function draw() {
           rotate(angle);
           ellipse(0, 0, length, thickness);
           pop();
+          
+          // やや油絵風にするための工夫
 
           // 影の元の位置からの距離
           let shadow_dict = random(-5, 5);
@@ -171,7 +145,7 @@ function draw() {
           ];
           fill(highlight_color, random(50, 200));
 
-          // 光を描画
+          // ハイライトを描画
           if (i % 50 == 0) {
             push();
             translate(highlight_loc.x, highlight_loc.y);
@@ -181,132 +155,7 @@ function draw() {
           }
         }
       }
-
-
-
-      // for(let i = 0; i < 100; i++) {
-      //   // ランダムな場所を選択して、色を画像から取得
-      //   let location = new createVector(random(width), random(height));
-      //   let location2 = new createVector(location.x, location.x+20);
-      //   let col = img.get(int(location.x), int(location.y));
-
-      //   // 明るさ
-      //   let brightness = red(col) + green(col) + blue(col);
-      //   // 明るさによる円の半径
-      //   let diameter = map(255 * 3 - brightness, 0, 255 * 3, 5, 15) * size;
-      //   let diameterx = diameter * pix_x * random(-2, 2);
-      //   let diametery = diameter * pix_y * random(-2, 2);
-
-      //   fill(red(col), 0, 0, 127);
-      //   // 四角を描画
-      //   rect(location2.x, location2.y, diameterx, diametery);
-
-      //   fill(0, green(col), 0, 127);
-      //   // 四角を描画
-      //   rect(location2.x+5, location2.y, diameterx, diametery);
-
-      //   fill(0, 0, blue(col), 127);
-      //   // 四角を描画
-      //   rect(location.x, location.y+5, diameterx, diametery);
-
-      //   // 追加の色
-      //   //blendMode(OVERLAY);
-      //   let col2_red = [
-      //     red(col) + map(noise(location.x, location.y), 0, 1, -50, 50),
-      //   ];
-      //   let col2_green = [
-      //     green(col) + map(noise(location.x, location.y), 0, 1, -50, 50),
-      //   ];
-      //   let col2_blue = [
-      //     blue(col) + map(noise(location.x, location.y), 0, 1, -50, 50),
-      //   ];
-      //   fill(col2_red, col2_green, col2_blue, random(100, 150));
-      //   if (i % 5 == 0) {
-      //     rect(
-      //       location.x + random(-5, 5),
-      //       location.y + random(-5, 5),
-      //       diameterx,
-      //       diametery
-      //     );
-      //   }
-
-      //   // 光の描画
-      //   blendMode(LIGHTEST);
-      //   let diameter2 = map(255 * 3 - brightness, 0, 255 * 3, 5, 20);
-      //   fill(red(col), green(col), 0);
-      //   if (i % 5 == 0) {
-      //     rect(location.x + 5, location.y + 5, diameterx, diametery);
-      //   }
-      //   fill(red(col), 0, blue(col));
-      //   if (i % 5 == 0) {
-      //     rect(location.x + 5, location.y - 5, diameterx, diametery);
-      //   }
-      //   fill(0, green(col), blue(col));
-      //   if (i % 5 == 0) {
-      //     rect(location.x - 5, location.y - 5, diameterx, diametery);
-      //   }
-
-      //   blendMode(SOFT_LIGHT);
-      //   fill(green(col), blue(col), green(col), random(100, 255));
-      //   if (i % 3 == 0) {
-      //     rect(
-      //       location.x + random(-5, 5),
-      //       location.y + random(-5, 5),
-      //       diameterx,
-      //       diametery
-      //     );
-      //   }
-
-      //   // sparkle
-      //   hologram_col = [
-      //     "#FAF9B9",
-      //     "#CAE6FF",
-      //     "#A0FBF6",
-      //     "#FFE8B2",
-      //     "#C9F8D4",
-      //     "#FFFF6C",
-      //     "#B0F0FA",
-      //     "#C6FAED",
-      //     "#FFF1A3",
-      //     "#D4F66B",
-      //   ];
-      //   neon_col = [
-      //     "#FFFF01",
-      //     "#39F966",
-      //     "#FF00FF",
-      //     "#00FFFF",
-      //     "#DA07F7",
-      //     "#FF6600",
-      //     "#FE2C85",
-      //     "#0746D8",
-      //   ];
-      //   blendMode(SOFT_LIGHT);
-      //   fill(random(hologram_col));
-      //   if (i % 5 == 0) {
-      //     rect(random(width), random(height), diameterx, diametery);
-      //   }
-      //   fill(random(neon_col));
-      //   if (i % 5 == 0) {
-      //     rect(random(width), random(height), diameterx, diametery);
-      //   }
-
-        // random color
-        // colorMode(HSB, 255);
-        // blendMode(BLEND);
-        // let satu = saturation(col);
-        // fill(random(0, 100), satu);
-        // if (i % 5 == 0) {
-        //     rect(
-        //         location.x + random(-5, 5),
-        //         location.y + random(-5, 5),
-        //         diameter,
-        //         diameter
-        //     );
-        // }
-      // }
-
     }
-
 }
 
 
@@ -329,8 +178,3 @@ function save_file() {
     saveCanvas("myImage", "png");
 }
 
-// function new_canvas() {
-//       fill(255 / 2);
-//       rect(0, 0, width, height);
-//       resizeCanvas(img.width, img.height);
-// }
